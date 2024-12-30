@@ -25,8 +25,12 @@ namespace PracticalTestApi.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetById(int Id)
         {
-            var employees = await _employee.GetEmployeeByIdAsync(Id).ConfigureAwait(false);
-            return Ok(employees);
+            if (Id == null) { return BadRequest("Input invailid or null"); }
+            else
+            {
+                var employees = await _employee.GetEmployeeByIdAsync(Id).ConfigureAwait(false);
+                return Ok(employees);
+            }
         }
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteEmployee(int Id)

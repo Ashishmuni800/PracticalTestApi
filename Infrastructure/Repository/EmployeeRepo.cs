@@ -4,6 +4,7 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace Infrastructure.Repository
     public class EmployeeRepo : IEmployeeRepo
     {
         private readonly ApplicationDbContext _employee;
+        //private readonly ApiResponse _response;
         public EmployeeRepo(ApplicationDbContext context)
         {
             _employee = context;
@@ -119,7 +121,9 @@ namespace Infrastructure.Repository
         public async Task<EmployeeDatatable> GetEmployeeByIdAsync(int Id)
         {
             var employee= await _employee.Employee.Where(ep => ep.Id == Id).SingleOrDefaultAsync();
-                // Calculate allowances and salary
+            if(employee !=null)
+            // Calculate allowances and salary
+            {
                 var dearnessAllowance = employee.BasicSalary * 0.40f;
                 var conveyanceAllowance = Math.Min(dearnessAllowance * 0.10f, 250);
                 var houseRentAllowance = Math.Max(employee.BasicSalary * 0.25f, 1500);
@@ -144,7 +148,10 @@ namespace Infrastructure.Repository
                     pt = pt,
                     totalSalary = totalSalary
                 };
-            return da;
+                return da;
+            }
+            return null;
+             
         }
 
         public async void SaveChangesAsync()
