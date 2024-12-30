@@ -12,7 +12,8 @@ namespace Domain.RepositoryInterface
         Task<Employee> EditEmployeeAsync(Employee employee);
         Task<Employee> AddEmployeeAsync(Employee employee);
         Task<IEnumerable<EmployeeDatatable>> GetEmployeeAsync();
-        Task<Employee> GetEmployeeByIdAsync(int Id);
+        Task<EmployeeDatatable> GetEmployeeByIdAsync(int Id);
+        Task<bool> DeletedAsync(int Id);
         void SaveChangesAsync();
     }
 }

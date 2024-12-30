@@ -28,6 +28,12 @@ namespace PracticalTestApi.Controllers
             var employees = await _employee.GetEmployeeByIdAsync(Id).ConfigureAwait(false);
             return Ok(employees);
         }
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteEmployee(int Id)
+        {
+            await _employee.DeletedAsync(Id).ConfigureAwait(false);
+            return Ok();
+        }
         [HttpPost]
         public async Task<IActionResult> AddEmployee([FromBody] EmployeeDTO model)
         {
@@ -52,3 +58,4 @@ namespace PracticalTestApi.Controllers
         }
     }
 }
+  

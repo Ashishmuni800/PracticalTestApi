@@ -13,6 +13,7 @@ namespace Application.ServiceInterface
         Task<EmployeeDTO> EditEmployeeAsync(EmployeeDTO employee);
         Task<EmployeeDTO> AddEmployeeAsync(EmployeeDTO employee);
         Task<IEnumerable<EmployeeDatatableViewModel>> GetEmployeeAsync();
-        Task<EmployeeViewModel> GetEmployeeByIdAsync(int Id);
+        Task<EmployeeDatatableViewModel> GetEmployeeByIdAsync(int Id);
+        Task<bool> DeletedAsync(int Id);
     }
 }

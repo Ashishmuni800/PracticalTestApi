@@ -33,6 +33,11 @@ namespace Application.Service
 
         }
 
+        public async Task<bool> DeletedAsync(int Id)
+        {
+            return await _Repo.DeletedAsync(Id).ConfigureAwait(false);
+        }
+
         public async Task<EmployeeDTO> EditEmployeeAsync(EmployeeDTO employee)
         {
             var model = _Mapp.Map<Employee>(employee);
@@ -49,10 +54,10 @@ namespace Application.Service
             return (IEnumerable<EmployeeDatatableViewModel>)modelDto;
         }
 
-        public async Task<EmployeeViewModel> GetEmployeeByIdAsync(int Id)
+        public async Task<EmployeeDatatableViewModel> GetEmployeeByIdAsync(int Id)
         {
             var model = await _Repo.GetEmployeeByIdAsync(Id).ConfigureAwait(false);
-            var modelDto = _Mapp.Map<EmployeeViewModel>(model);
+            var modelDto = _Mapp.Map<EmployeeDatatableViewModel>(model);
             return modelDto;
         }
     }

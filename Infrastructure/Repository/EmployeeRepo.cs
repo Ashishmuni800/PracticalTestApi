@@ -38,6 +38,14 @@ namespace Infrastructure.Repository
             return employee;
         }
 
+        public async Task<bool> DeletedAsync(int Id)
+        {
+            var remo=await _employee.Employee.Where(ep => ep.Id == Id).SingleOrDefaultAsync();
+            _employee.Employee.Remove(remo);
+            await _employee.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<Employee> EditEmployeeAsync(Employee employee)
         {
             // Calculate the allowances and deductions
@@ -108,9 +116,35 @@ namespace Infrastructure.Repository
 
 
 
-        public async Task<Employee> GetEmployeeByIdAsync(int Id)
+        public async Task<EmployeeDatatable> GetEmployeeByIdAsync(int Id)
         {
-            return await _employee.Employee.Where(ep => ep.Id == Id).SingleOrDefaultAsync();
+            var employee= await _employee.Employee.Where(ep => ep.Id == Id).SingleOrDefaultAsync();
+                // Calculate allowances and salary
+                var dearnessAllowance = employee.BasicSalary * 0.40f;
+                var conveyanceAllowance = Math.Min(dearnessAllowance * 0.10f, 250);
+                var houseRentAllowance = Math.Max(employee.BasicSalary * 0.25f, 1500);
+                var grossSalary = employee.BasicSalary + dearnessAllowance + conveyanceAllowance + houseRentAllowance;
+                var pt = grossSalary <= 3000 ? 100 : grossSalary <= 6000 ? 150 : 200;
+                var totalSalary = grossSalary - pt;
+                // Create a new EmployeeDatatable object for each employee and assign the values
+
+                var da = new EmployeeDatatable
+                {
+                    Id = employee.Id,
+                    EmployeeCode = employee.EmployeeCode,
+                    EmployeeName = employee.EmployeeName,
+                    DateOfBirth = employee.DateOfBirth,
+                    Gender = employee.Gender,
+                    Department = employee.Department,
+                    Designation = employee.Designation,
+                    BasicSalary = employee.BasicSalary,
+                    dearnessAllowance = dearnessAllowance,
+                    conveyanceAllowance = conveyanceAllowance,
+                    houseRentAllowance = houseRentAllowance,
+                    pt = pt,
+                    totalSalary = totalSalary
+                };
+            return da;
         }
 
         public async void SaveChangesAsync()
