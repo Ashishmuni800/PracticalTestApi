@@ -10,8 +10,8 @@ namespace PracticalTestApi.Controllers
     [Route("[controller]/[action]")]
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeService _employee;
-        public EmployeeController(IEmployeeService employee)
+        private readonly IServiceInfra _employee;
+        public EmployeeController(IServiceInfra employee)
         {
             _employee = employee;
         }
@@ -19,7 +19,7 @@ namespace PracticalTestApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var employees = await _employee.GetEmployeeAsync().ConfigureAwait(false);
+            var employees = await _employee.EmployeeService.GetEmployeeAsync().ConfigureAwait(false);
             return Ok(employees);
         }
         [HttpGet("{Id}")]
@@ -28,14 +28,14 @@ namespace PracticalTestApi.Controllers
             if (Id == null) { return BadRequest("Input invailid or null"); }
             else
             {
-                var employees = await _employee.GetEmployeeByIdAsync(Id).ConfigureAwait(false);
+                var employees = await _employee.EmployeeService.GetEmployeeByIdAsync(Id).ConfigureAwait(false);
                 return Ok(employees);
             }
         }
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteEmployee(int Id)
         {
-            await _employee.DeletedAsync(Id).ConfigureAwait(false);
+            await _employee.EmployeeService.DeletedAsync(Id).ConfigureAwait(false);
             return Ok();
         }
         [HttpPost]
@@ -43,7 +43,7 @@ namespace PracticalTestApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var data=await _employee.AddEmployeeAsync(model).ConfigureAwait(false);
+                var data=await _employee.EmployeeService.AddEmployeeAsync(model).ConfigureAwait(false);
                 // Redirect to the index to see the updated list
                 return Ok(data);
             }
@@ -54,7 +54,7 @@ namespace PracticalTestApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var data = await _employee.EditEmployeeAsync(model).ConfigureAwait(false);
+                var data = await _employee.EmployeeService.EditEmployeeAsync(model).ConfigureAwait(false);
                 // Redirect to the index to see the updated list
                 return Ok(data);
             }

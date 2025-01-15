@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Context
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext //IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Employee> Employee { get; set; }
+        public DbSet<AspNetUsers> AspNetUsers { get; set; }
     }
 }

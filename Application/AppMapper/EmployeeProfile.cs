@@ -18,6 +18,14 @@ namespace Application.AppMapper
             CreateMap<Employee,EmployeeViewModel>();
             CreateMap<Employee,EmployeeDTO>();
             CreateMap<EmployeeDTO, Employee>();
+
+            CreateMap<AspNetUsers, AspNetUsersViewModel>();
+            CreateMap<AspNetUsers, AspNetUsersDTO>();
+            CreateMap<AspNetUsersDTO, AspNetUsers>();
+
+            CreateMap<Product, ProductViewModel>();
+            CreateMap<Product, ProductDTO>();
+            CreateMap<ProductDTO, Product>();
         }
     }
 }
