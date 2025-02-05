@@ -17,14 +17,15 @@ namespace Infrastructure.Repository
         public async Task<bool> AddProductAsync(Product product)
         {
             // Using a parameterized query to prevent SQL injection
-            string query = "INSERT INTO Product (ProductName, ProductType, ProductSize, Quantity, NumberOfOrders) " +
-                           "VALUES (@ProductName, @ProductType, @ProductSize, @Quantity, @NumberOfOrders)";
+            string query = "INSERT INTO Product (ProductName,ProductFile, ProductType, ProductSize, Quantity, NumberOfOrders) " +
+                           "VALUES (@ProductName,@ProductFile, @ProductType, @ProductSize, @Quantity, @NumberOfOrders)";
 
             // Create a SQL command and set parameters
             SqlCommand cmd = new SqlCommand(query, db.cnn);
 
             // Add parameters and their corresponding values
             cmd.Parameters.AddWithValue("@ProductName", product.ProductName ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@ProductFile", product.ProductFile ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@ProductType", product.ProductType ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@ProductSize", product.ProductSize ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@Quantity", product.Quantity);
@@ -75,6 +76,7 @@ namespace Infrastructure.Repository
             // Using parameterized queries to prevent SQL injection
             string query = "UPDATE Product SET " +
                 "ProductName = @ProductName, " +
+                "ProductFile = @ProductFile, " +
                 "ProductType = @ProductType, " +
                 "ProductSize = @ProductSize, " +
                 "Quantity = @Quantity, " +
@@ -86,6 +88,7 @@ namespace Infrastructure.Repository
 
             // Add parameters to the command
             cmd.Parameters.AddWithValue("@ProductName", product.ProductName ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@ProductFile", product.ProductFile ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@ProductType", product.ProductType ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@ProductSize", product.ProductSize ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@Quantity", product.Quantity);
@@ -130,6 +133,7 @@ namespace Infrastructure.Repository
                         {
                             Id = (int)sqlDataReader["Id"],
                             ProductName = sqlDataReader["ProductName"].ToString(),
+                            ProductFile = sqlDataReader["ProductFile"].ToString(),
                             ProductType = sqlDataReader["ProductType"].ToString(),
                             ProductSize = (decimal)sqlDataReader["ProductSize"],
                             Quantity = (decimal)sqlDataReader["Quantity"],
@@ -171,6 +175,7 @@ namespace Infrastructure.Repository
                         {
                             Id = (int)sqlDataReader["Id"],
                             ProductName = sqlDataReader["ProductName"].ToString(),
+                            ProductFile = sqlDataReader["ProductFile"].ToString(),
                             ProductType = sqlDataReader["ProductType"].ToString(),
                             ProductSize = (decimal)sqlDataReader["ProductSize"],
                             Quantity = (decimal)sqlDataReader["Quantity"],

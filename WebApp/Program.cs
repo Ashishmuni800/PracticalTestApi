@@ -1,3 +1,4 @@
+using Application.ApiHttpClient;
 using WebApp.BaseUrl;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<CommanUrl, CommanUrl>();
 builder.Services.AddSingleton<HttpClient, HttpClient>();
+builder.Services.AddSingleton<IHttpClients, HttpClients>();
 
 var app = builder.Build();
 
