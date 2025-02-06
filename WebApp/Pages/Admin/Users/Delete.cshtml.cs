@@ -3,36 +3,37 @@ using Application.DTO;
 using Application.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
-using System.Text;
+using System.Threading.Tasks;
 using WebApp.BaseUrl;
 
 namespace WebApp.Pages.Admin.Users
 {
     public class DeleteModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<DeleteModel> _logger;  // Changed to DeleteModel, since it refers to this class
         private readonly CommanUrl _commanUrl;
         private readonly IHttpClients _httpClient;
-        public DeleteModel(ILogger<IndexModel> logger,CommanUrl commanUrl, IHttpClients httpClient)
+
+        public DeleteModel(ILogger<DeleteModel> logger, CommanUrl commanUrl, IHttpClients httpClient)
         {
             _logger = logger;
             _commanUrl = commanUrl;
             _httpClient = httpClient;
         }
-        public List<AspNetUsersViewModel> UsersViewModels { get; set; }
-
-        
-        [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            string BaseUrl = _commanUrl.SetUrl("/Auth/DeleteUser");
-            var response = await _httpClient.DeleteAsync(BaseUrl,id).ConfigureAwait(false);
+            if (id == null)  // Use null conditional check for better null safety
+            {
+                return NotFound();
+            }
+
+            string baseUrl = _commanUrl.SetUrl("/Auth/DeleteUser");
+            var response = await _httpClient.DeleteAsync(baseUrl, id).ConfigureAwait(false);
 
             if (response != null)
             {
-                return RedirectToPage("/Admin/Users/Index"); // Redirect back to the users list
+                return RedirectToPage("/Admin/Users/Index");  // Redirect after successful deletion
             }
             else
             {
@@ -42,5 +43,6 @@ namespace WebApp.Pages.Admin.Users
             }
         }
 
+       
     }
 }

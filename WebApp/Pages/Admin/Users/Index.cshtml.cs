@@ -22,7 +22,7 @@ namespace WebApp.Pages.Admin.Users
             _httpClient = httpClient;
         }
         public List<AspNetUsersViewModel> UsersViewModels { get; set; }
-
+        public AspNetUsersDTO AspNetUsers { get; set; } = default!;
         public async Task<IActionResult> OnGet()
         {
             string BaseUrl = _commanUrl.SetUrl("/Auth/index");
@@ -47,24 +47,5 @@ namespace WebApp.Pages.Admin.Users
             // If the response was not successful, return the page with no users
             return Page();
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete(string id)
-        {
-            string BaseUrl = _commanUrl.SetUrl("/Auth/DeleteUser");
-            var response = await _httpClient.DeleteAsync(BaseUrl,id).ConfigureAwait(false);
-
-            if (response != null)
-            {
-                return RedirectToPage("/Admin/Users/Index"); // Redirect back to the users list
-            }
-            else
-            {
-                // Return an error message if the deletion failed
-                ModelState.AddModelError(string.Empty, "Delete failed");
-                return Page();
-            }
-        }
-
     }
 }
