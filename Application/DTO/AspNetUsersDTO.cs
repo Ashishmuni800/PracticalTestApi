@@ -15,11 +15,11 @@ namespace Application.DTO
         public string? Name { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        [Required]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
         public string? Roles { get; set; }
         public string? Images { get; set; }
+        public IFormFile ProfilesImage { get; set; }
         public DateTime? ExpiredateTime { get; set; }
     }
 
