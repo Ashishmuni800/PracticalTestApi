@@ -35,7 +35,7 @@ namespace WebApp.Pages.Admin.Users
         {
             NetUsersDTOModels.Images = ProfilesImage.FileName;
             _CommanImage.UploadImage("images","Users", ProfilesImage);
-            string BaseUrl = _commanUrl.SetUrl("/Auth/Registration");
+            string BaseUrl = _commanUrl.SetUrl("Auth/Registration");
             var response = await _httpClient.PostAsync(BaseUrl, NetUsersDTOModels).ConfigureAwait(false);
             if (response != null)
             {

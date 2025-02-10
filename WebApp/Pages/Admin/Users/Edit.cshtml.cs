@@ -37,7 +37,7 @@ namespace WebApp.Pages.Admin.Users
             {
                 return NotFound();
             }
-            string baseUrl = _commanUrl.SetUrl("/Auth/Index");
+            string baseUrl = _commanUrl.SetUrl("Auth/Index");
             var response = await _httpClient.GetByIdAsync(baseUrl, id).ConfigureAwait(false);
             if (response == null)
             {
@@ -52,7 +52,7 @@ namespace WebApp.Pages.Admin.Users
             var imageFile = Path.Combine(environment.WebRootPath, "images", "Users", ProfilesImage.FileName);
             using var fileStream = new FileStream(imageFile, FileMode.Create);
             await ProfilesImage.CopyToAsync(fileStream);
-            string baseUrl = _commanUrl.SetUrl("/Auth/UpdateUser");
+            string baseUrl = _commanUrl.SetUrl("Auth/UpdateUser");
             var response = await _httpClient.PostUpdateAsync(baseUrl, id, NetUsersDTOModels).ConfigureAwait(false);
 
             if (response != null)

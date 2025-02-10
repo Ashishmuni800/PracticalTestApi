@@ -41,7 +41,7 @@ namespace WebApp.Pages.Product
             }
             Product.ProductFile = ProductImage.FileName;
             _CommanImage.UploadImage("images", "products", ProductImage);
-            string BaseUrl = _commanUrl.SetUrl("/Product/Create");
+            string BaseUrl = _commanUrl.SetUrl("Product/Create");
             var response = await _httpClient.PostAsync(BaseUrl, Product).ConfigureAwait(false);
 
             if (response != null)

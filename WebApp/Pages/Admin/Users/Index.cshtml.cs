@@ -25,7 +25,7 @@ namespace WebApp.Pages.Admin.Users
         public AspNetUsersDTO AspNetUsers { get; set; } = default!;
         public async Task<IActionResult> OnGet()
         {
-            string BaseUrl = _commanUrl.SetUrl("/Auth/index");
+            string BaseUrl = _commanUrl.SetUrl("Auth/index");
             var response = await _httpClient.GetAsync(BaseUrl).ConfigureAwait(false);
             if(response != null)
             {

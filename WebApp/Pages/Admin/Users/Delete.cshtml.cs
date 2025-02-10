@@ -28,7 +28,7 @@ namespace WebApp.Pages.Admin.Users
                 return NotFound();
             }
 
-            string baseUrl = _commanUrl.SetUrl("/Auth/DeleteUser");
+            string baseUrl = _commanUrl.SetUrl("Auth/DeleteUser");
             var response = await _httpClient.DeleteAsync(baseUrl, id).ConfigureAwait(false);
 
             if (response != null)
