@@ -18,13 +18,13 @@ namespace WebApp.Pages.Admin.Users
     {
         private readonly CommanUrl _commanUrl;
         private readonly IHttpClients _httpClient;
-        private readonly IWebHostEnvironment environment;
         private readonly CommanImageUploades _CommanImage;
-        public CreateModel(CommanUrl commanUrl, IHttpClients httpClient, IWebHostEnvironment environment, CommanImageUploades CommanImage)
+        public CreateModel(CommanUrl commanUrl,
+                           IHttpClients httpClient,
+                           CommanImageUploades CommanImage)
         {
             _commanUrl = commanUrl;
             _httpClient = httpClient;
-            this.environment = environment;
             this._CommanImage = CommanImage;
         }
         [BindProperty]
@@ -45,9 +45,7 @@ namespace WebApp.Pages.Admin.Users
             {
                 return BadRequest("Created Failed");
             }
-            return Page();
         }
-
 
     }
 }

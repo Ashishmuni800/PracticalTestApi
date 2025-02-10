@@ -18,14 +18,12 @@ namespace WebApp.Pages.Product
         private readonly ILogger<IndexModel> _logger;
         private readonly CommanUrl _commanUrl;
         private readonly IHttpClients _httpClient;
-        private readonly IWebHostEnvironment environment;
         private readonly CommanImageUploades _CommanImage;
-        public IndexModel(ILogger<IndexModel> logger,CommanUrl commanUrl, IHttpClients httpClient, IWebHostEnvironment environment, CommanImageUploades CommanImage)
+        public IndexModel(ILogger<IndexModel> logger,CommanUrl commanUrl, IHttpClients httpClient, CommanImageUploades CommanImage)
         {
             _logger = logger;
             _commanUrl = commanUrl;
             _httpClient = httpClient;
-            this.environment = environment;
             this._CommanImage = CommanImage;
         }
         [BindProperty]
@@ -41,7 +39,6 @@ namespace WebApp.Pages.Product
             {
                 return Page();
             }
-
             Product.ProductFile = ProductImage.FileName;
             _CommanImage.UploadImage("images", "products", ProductImage);
             string BaseUrl = _commanUrl.SetUrl("/Product/Create");
