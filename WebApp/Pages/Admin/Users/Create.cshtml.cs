@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
 using WebApp.BaseUrl;
+using WebApp.ImageUploads;
 
 namespace WebApp.Pages.Admin.Users
 {
@@ -18,11 +19,13 @@ namespace WebApp.Pages.Admin.Users
         private readonly CommanUrl _commanUrl;
         private readonly IHttpClients _httpClient;
         private readonly IWebHostEnvironment environment;
-        public CreateModel(CommanUrl commanUrl, IHttpClients httpClient, IWebHostEnvironment environment)
+        private readonly CommanImageUploades _CommanImage;
+        public CreateModel(CommanUrl commanUrl, IHttpClients httpClient, IWebHostEnvironment environment, CommanImageUploades CommanImage)
         {
             _commanUrl = commanUrl;
             _httpClient = httpClient;
             this.environment = environment;
+            this._CommanImage = CommanImage;
         }
         [BindProperty]
         public AspNetUsersDTO NetUsersDTOModels { get; set; }
@@ -31,10 +34,7 @@ namespace WebApp.Pages.Admin.Users
         public async Task<IActionResult> OnPostAsync()
         {
             NetUsersDTOModels.Images = ProfilesImage.FileName;
-            var imageFile = Path.Combine(environment.WebRootPath, "images", "Users", ProfilesImage.FileName);
-            using var fileStream = new FileStream(imageFile, FileMode.Create);
-            await ProfilesImage.CopyToAsync(fileStream);
-
+            _CommanImage.UploadImage("images","Users", ProfilesImage);
             string BaseUrl = _commanUrl.SetUrl("/Auth/Registration");
             var response = await _httpClient.PostAsync(BaseUrl, NetUsersDTOModels).ConfigureAwait(false);
             if (response != null)

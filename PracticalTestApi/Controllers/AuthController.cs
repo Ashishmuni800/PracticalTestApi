@@ -10,11 +10,9 @@ namespace PracticalTestApi.Controllers
     public class AuthController : Controller
     {
         private readonly IServiceInfra _Auth;
-        private readonly IWebHostEnvironment environment;
-        public AuthController(IServiceInfra Auth, IWebHostEnvironment environment)
+        public AuthController(IServiceInfra Auth)
         {
             _Auth = Auth;
-            this.environment = environment;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -37,12 +35,8 @@ namespace PracticalTestApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration([FromBody] AspNetUsersDTO model)
         {
-            IFormFile ProfilesImage = model.Images;
-            var imageFile = Path.Combine(environment.WebRootPath, "images", "Users", model.Images);
-            using var fileStream = new FileStream(imageFile, FileMode.Create);
-            await ProfilesImage.CopyToAsync(fileStream);
             var User = await _Auth.AuthService.ResistrationAsync(model).ConfigureAwait(false);
-            return Ok(User);
+            return Ok();
         } 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(string id, [FromBody] AspNetUsersDTO model)

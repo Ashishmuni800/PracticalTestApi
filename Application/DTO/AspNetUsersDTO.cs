@@ -19,7 +19,7 @@ namespace Application.DTO
         public string? Password { get; set; }
         public string? Roles { get; set; }
         public string? Images { get; set; }
-        public IFormFile ProfilesImage { get; set; }
+        //public IFormFile ProfilesImage { get; set; }
         public DateTime? ExpiredateTime { get; set; }
     }
 

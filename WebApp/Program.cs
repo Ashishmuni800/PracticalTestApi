@@ -1,11 +1,13 @@
 using Application.ApiHttpClient;
 using WebApp.BaseUrl;
+using WebApp.ImageUploads;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<CommanUrl, CommanUrl>();
+builder.Services.AddSingleton<CommanImageUploades, CommanImageUploades>();
 builder.Services.AddSingleton<HttpClient, HttpClient>();
 builder.Services.AddSingleton<IHttpClients, HttpClients>();
 

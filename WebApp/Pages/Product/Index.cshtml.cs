@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using WebApp.BaseUrl;
+using WebApp.ImageUploads;
 
 namespace WebApp.Pages.Product
 {
@@ -18,12 +19,14 @@ namespace WebApp.Pages.Product
         private readonly CommanUrl _commanUrl;
         private readonly IHttpClients _httpClient;
         private readonly IWebHostEnvironment environment;
-        public IndexModel(ILogger<IndexModel> logger,CommanUrl commanUrl, IHttpClients httpClient, IWebHostEnvironment environment)
+        private readonly CommanImageUploades _CommanImage;
+        public IndexModel(ILogger<IndexModel> logger,CommanUrl commanUrl, IHttpClients httpClient, IWebHostEnvironment environment, CommanImageUploades CommanImage)
         {
             _logger = logger;
             _commanUrl = commanUrl;
             _httpClient = httpClient;
             this.environment = environment;
+            this._CommanImage = CommanImage;
         }
         [BindProperty]
         public ProductDTO Product { get; set; } = default!;
@@ -40,10 +43,7 @@ namespace WebApp.Pages.Product
             }
 
             Product.ProductFile = ProductImage.FileName;
-            var imageFile = Path.Combine(environment.WebRootPath, "images", "products", ProductImage.FileName);
-            using var fileStream = new FileStream(imageFile, FileMode.Create);
-            await ProductImage.CopyToAsync(fileStream);
-
+            _CommanImage.UploadImage("images", "products", ProductImage);
             string BaseUrl = _commanUrl.SetUrl("/Product/Create");
             var response = await _httpClient.PostAsync(BaseUrl, Product).ConfigureAwait(false);
 
