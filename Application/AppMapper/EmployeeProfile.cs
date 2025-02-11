@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Application.Service;
 using Application.ViewModel;
 using AutoMapper;
 using Domain.Model;
@@ -26,6 +27,18 @@ namespace Application.AppMapper
             CreateMap<Product, ProductViewModel>();
             CreateMap<Product, ProductDTO>();
             CreateMap<ProductDTO, Product>();
+
+            CreateMap<State, StateViewModel>();
+            CreateMap<State, StateDTO>();
+            CreateMap<StateDTO, State>();
+
+            CreateMap<Country, CountryViewModel>();
+            CreateMap<Country, CountryDTO>();
+            CreateMap<CountryDTO, Country>();
+
+            CreateMap<PrasonalDetails, PrasonalDetailsViewModel>();
+            CreateMap<PrasonalDetails, PrasonalDetailsDTO>();
+            CreateMap<PrasonalDetailsDTO, PrasonalDetails>();
         }
     }
 }

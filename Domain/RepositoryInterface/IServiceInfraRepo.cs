@@ -10,5 +10,9 @@ namespace Domain.RepositoryInterface
     {
         IAuthRepo AuthRepo { get; set; }
         IEmployeeRepo EmployeeRepo { get; set; }
+        IPrasonalDetailsRepo PrasonalDetailsRepo { get; set; }
+        ICountryRepo CountryRepo { get; set; }
+        IStateRepo StateRepo { get; set; }
+        ICityRepo CityRepo { get; set; }
     }
 }

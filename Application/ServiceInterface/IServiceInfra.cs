@@ -10,5 +10,9 @@ namespace Application.ServiceInterface
     {
         IAuthService AuthService { get; set; }
         IEmployeeService EmployeeService { get; set; }
+        IPrasonalDetailsService PrasonalDetailsService { get; set; }
+        ICountryService CountryService { get; set; }
+        IStateService StateService { get; set; }
+        ICityService CityService { get; set; }
     }
 }

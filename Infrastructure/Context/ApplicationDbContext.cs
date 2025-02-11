@@ -15,5 +15,10 @@ namespace Infrastructure.Context
 
         public DbSet<Employee> Employee { get; set; }
         public DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<PrasonalDetails> PrasonalDetails { get; set; }
+        public DbSet<Country> Country { get; set; }
+        public DbSet<State> State { get; set; }
+        public DbSet<City> City { get; set; }
     }
 }

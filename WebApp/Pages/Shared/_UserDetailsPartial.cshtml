@@ -17,7 +17,7 @@
                 <th>Email</th>
                 <th>Username</th>
                 <th>Phone Number</th>
-                <th>Action</th>
+                <th class="text-center">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -31,10 +31,7 @@
                     <td>
                         <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a> |
                         <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>    |
-                        <a asp-page="./View" asp-route-id="@item.Id" class="btn btn-primary">View</a>
-                        @* <form method="post" href="/Admin/Users/Delete/id=@item.Id" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form> *@
+                        <a asp-page="./View" asp-route-id="@item.Id" class="btn btn-success">View</a>
                     </td>
 
                 </tr>
