@@ -30,7 +30,8 @@
                     <td>@item.Phone</td>
                     <td>
                         <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a> |
-                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>    |
+                        <a asp-page="./View" asp-route-id="@item.Id" class="btn btn-primary">View</a>
                         @* <form method="post" href="/Admin/Users/Delete/id=@item.Id" style="display:inline;">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form> *@
