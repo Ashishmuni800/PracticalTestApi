@@ -28,13 +28,26 @@ namespace Infrastructure.Repository
 
         public async Task<bool> DeletedAsync(int Id)
         {
-            var finddata = _context.State.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            var finddata = await _context.State
+                                          .Where(x => x.Id == Id && x.IsActive == true)
+                                          .FirstOrDefaultAsync();
+
+            // If found and it's active
             if (finddata != null)
             {
-                _context.Remove(finddata);
+                // Set IsActive to false
+                finddata.IsActive = false;
+
+                // Update the entity in the context
+                _context.State.Update(finddata);
+
+                // Save changes to the database
                 await _context.SaveChangesAsync();
+
+                return true;
             }
-            return true;
+
+            return false;  // If no record was found, return false
         }
 
         public async Task<State> EditStateAsync(State State)
@@ -46,17 +59,17 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<State>> GetStateAsync()
         {
-            return await _context.State.ToListAsync();
+            return await _context.State.Where(x=>x.IsActive == true).ToListAsync();
         }
 
         public async Task<IEnumerable<State>> GetStateByCountryIdAsync(int CountryId)
         {
-            return await _context.State.Where(Id=>Id.CountryId==CountryId).ToListAsync();
+            return await _context.State.Where(x=>x.CountryId==CountryId && x.IsActive == true).ToListAsync();
         }
 
         public async Task<State> GetStateByIdAsync(int Id)
         {
-            return await _context.State.Where(id => id.Id == Id).FirstOrDefaultAsync();
+            return await _context.State.Where(x => x.Id == Id && x.IsActive == true).FirstOrDefaultAsync();
         }
     }
 }

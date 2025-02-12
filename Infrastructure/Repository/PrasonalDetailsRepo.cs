@@ -27,14 +27,29 @@ namespace Infrastructure.Repository
 
         public async Task<bool> DeletedAsync(int Id)
         {
-            var finddata = _context.PrasonalDetails.Where(x => x.Id == Id).FirstOrDefaultAsync();
-            if (finddata != null) 
+            // Find the entity based on Id and if it is active
+            var finddata = await _context.PrasonalDetails
+                                          .Where(x => x.Id == Id && x.IsActive == true)
+                                          .FirstOrDefaultAsync();
+
+            // If found and it's active
+            if (finddata != null)
             {
-                _context.Remove(finddata);
+                // Set IsActive to false
+                finddata.IsActive = false;
+
+                // Update the entity in the context
+                _context.PrasonalDetails.Update(finddata);
+
+                // Save changes to the database
                 await _context.SaveChangesAsync();
+
+                return true;
             }
-            return true;
+
+            return false;  // If no record was found, return false
         }
+
 
         public async Task<PrasonalDetails> EditPrasonalDetailsAsync(PrasonalDetails prasonalDetails)
         {
@@ -49,6 +64,7 @@ namespace Infrastructure.Repository
                                                              join p in _context.PrasonalDetails on c.Id equals p.CountryId
                                                              join s in _context.State on c.Id equals s.CountryId
                                                              join ci in _context.City on s.Id equals ci.StateId
+                                                             where p.IsActive == true
                                                              select new PrasonalDetailsDataModel
                                                              {
                                                                  Id = p.Id,
@@ -69,7 +85,7 @@ namespace Infrastructure.Repository
                                   join p in _context.PrasonalDetails on c.Id equals p.CountryId
                                   join s in _context.State on c.Id equals s.CountryId
                                   join ci in _context.City on s.Id equals ci.StateId
-                                  where p.Id == Id
+                                  where p.Id == Id && p.IsActive == true
                                   select new PrasonalDetailsDataModel
                                   {
                                       Id = p.Id,

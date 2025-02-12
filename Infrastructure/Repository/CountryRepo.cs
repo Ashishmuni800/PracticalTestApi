@@ -28,13 +28,26 @@ namespace Infrastructure.Repository
 
         public async Task<bool> DeletedAsync(int Id)
         {
-            var finddata = _context.Country.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            var finddata = await _context.Country
+                                          .Where(x => x.Id == Id && x.IsActive == true)
+                                          .FirstOrDefaultAsync();
+
+            // If found and it's active
             if (finddata != null)
             {
-                _context.Remove(finddata);
+                // Set IsActive to false
+                finddata.IsActive = false;
+
+                // Update the entity in the context
+                _context.Country.Update(finddata);
+
+                // Save changes to the database
                 await _context.SaveChangesAsync();
+
+                return true;
             }
-            return true;
+
+            return false;  // If no record was found, return false
         }
 
         public async Task<Country> EditCountryAsync(Country Country)
@@ -46,12 +59,12 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<Country>> GetCountryAsync()
         {
-            return await _context.Country.ToListAsync();
+            return await _context.Country.Where(x=>x.IsActive == true).ToListAsync();
         }
 
         public async Task<Country> GetCountryByIdAsync(int Id)
         {
-            return await _context.Country.Where(id => id.Id == Id).FirstOrDefaultAsync();
+            return await _context.Country.Where(x => x.Id == Id && x.IsActive == true).FirstOrDefaultAsync();
         }
     }
 }
