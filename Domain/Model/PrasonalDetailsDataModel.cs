@@ -1,13 +1,12 @@
-﻿using Domain.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.ViewModel
+namespace Domain.Model
 {
-    public class PrasonalDetailsViewModel : CommanFieldViewModel
+    public class PrasonalDetailsDataModel : CommanField
     {
         public string? Name { get; set; }
         public string? Email { get; set; }

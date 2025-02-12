@@ -11,8 +11,8 @@ namespace Application.ServiceInterface
 {
     public interface IPrasonalDetailsService
     {
-        Task<bool> EditPrasonalDetailsAsync(PrasonalDetailsDTO PrasonalDetails);
-        Task<bool> AddPrasonalDetailsAsync(PrasonalDetailsDTO PrasonalDetails);
+        Task<PrasonalDetailsDTO> EditPrasonalDetailsAsync(PrasonalDetailsDTO PrasonalDetails);
+        Task<PrasonalDetailsDTO> AddPrasonalDetailsAsync(PrasonalDetailsDTO PrasonalDetails);
         Task<IEnumerable<PrasonalDetailsViewModel>> GetPrasonalDetailsAsync();
         Task<PrasonalDetailsViewModel> GetPrasonalDetailsByIdAsync(int Id);
         Task<bool> DeletedAsync(int Id);

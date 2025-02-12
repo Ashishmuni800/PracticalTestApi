@@ -2,6 +2,7 @@
 using Application.ServiceInterface;
 using Application.ViewModel;
 using AutoMapper;
+using Domain.Model;
 using Domain.RepositoryInterface;
 using System;
 using System.Collections.Generic;
@@ -22,29 +23,47 @@ namespace Application.Service
             _Mapp = Mapp;
         }
 
-        public Task<bool> AddCityAsync(CityDTO City)
+        public async Task<CityDTO> AddCityAsync(CityDTO City)
         {
-            throw new NotImplementedException();
+            var model = _Mapp.Map<City>(City);
+            await _Repo.CityRepo.AddCityAsync(model).ConfigureAwait(false);
+            var dto = _Mapp.Map<CityDTO>(model);
+            return dto;
         }
 
-        public Task<bool> DeletedAsync(int Id)
+        public async Task<bool> DeletedAsync(int Id)
         {
-            throw new NotImplementedException();
+            return await _Repo.CityRepo.DeletedAsync(Id).ConfigureAwait(false);
         }
 
-        public Task<bool> EditCityAsync(CityDTO City)
+        public async Task<CityDTO> EditCityAsync(CityDTO City)
         {
-            throw new NotImplementedException();
+            var model = _Mapp.Map<City>(City);
+            await _Repo.CityRepo.EditCityAsync(model).ConfigureAwait(false);
+            _Repo.AuthRepo.SaveChangesAsync();
+            var dto = _Mapp.Map<CityDTO>(model);
+            return dto;
         }
 
-        public Task<IEnumerable<CityViewModel>> GetCityAsync()
+        public async Task<IEnumerable<CityViewModel>> GetCityAsync()
         {
-            throw new NotImplementedException();
+            var model = await _Repo.CityRepo.GetCityAsync().ConfigureAwait(false);
+            var modelDto = _Mapp.Map<List<CityViewModel>>(model);
+            return modelDto;
         }
 
-        public Task<CityViewModel> GetCityByIdAsync(int Id)
+        public async Task<CityViewModel> GetCityByIdAsync(int Id)
         {
-            throw new NotImplementedException();
+            var model = await _Repo.CityRepo.GetCityByIdAsync(Id).ConfigureAwait(false);
+            var modelDto = _Mapp.Map<CityViewModel>(model);
+            return modelDto;
+        }
+
+        public async Task<IEnumerable<CityViewModel>> GetCityByStateIdAsync(int StateId)
+        {
+            var model = await _Repo.CityRepo.GetCityByStateIdAsync(StateId).ConfigureAwait(false);
+            var modelDto = _Mapp.Map<List<CityViewModel>>(model);
+            return modelDto;
         }
     }
 }

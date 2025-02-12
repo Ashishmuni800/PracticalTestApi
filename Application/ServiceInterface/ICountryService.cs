@@ -11,8 +11,8 @@ namespace Application.ServiceInterface
 {
     public interface ICountryService
     {
-        Task<bool> EditCountryAsync(CountryDTO Country);
-        Task<bool> AddCountryAsync(CountryDTO Country);
+        Task<CountryDTO> EditCountryAsync(CountryDTO Country);
+        Task<CountryDTO> AddCountryAsync(CountryDTO Country);
         Task<IEnumerable<CountryViewModel>> GetCountryAsync();
         Task<CountryViewModel> GetCountryByIdAsync(int Id);
         Task<bool> DeletedAsync(int Id);

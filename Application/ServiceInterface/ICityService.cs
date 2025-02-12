@@ -10,9 +10,10 @@ namespace Application.ServiceInterface
 {
     public interface ICityService
     {
-        Task<bool> EditCityAsync(CityDTO City);
-        Task<bool> AddCityAsync(CityDTO City);
+        Task<CityDTO> EditCityAsync(CityDTO City);
+        Task<CityDTO> AddCityAsync(CityDTO City);
         Task<IEnumerable<CityViewModel>> GetCityAsync();
+        Task<IEnumerable<CityViewModel>> GetCityByStateIdAsync(int StateId);
         Task<CityViewModel> GetCityByIdAsync(int Id);
         Task<bool> DeletedAsync(int Id);
     }

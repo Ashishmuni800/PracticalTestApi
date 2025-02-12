@@ -9,7 +9,7 @@ namespace Domain.Model
     public class City : CommanField
     {
         public string? CityName { get; set; }
-        public string? StateId { get; set; }
+        public int StateId { get; set; }
         public State? State { get; set; }
     }
 }

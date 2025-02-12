@@ -23,29 +23,40 @@ namespace Application.Service
             _Mapp = Mapp;
         }
 
-        public Task<bool> AddPrasonalDetailsAsync(PrasonalDetailsDTO PrasonalDetails)
+        public async Task<PrasonalDetailsDTO> AddPrasonalDetailsAsync(PrasonalDetailsDTO PrasonalDetails)
         {
-            throw new NotImplementedException();
+            var model = _Mapp.Map<PrasonalDetails>(PrasonalDetails);
+            await _Repo.PrasonalDetailsRepo.AddPrasonalDetailsAsync(model).ConfigureAwait(false);
+            var dto = _Mapp.Map<PrasonalDetailsDTO>(model);
+            return dto;
         }
 
-        public Task<bool> DeletedAsync(int Id)
+        public async Task<bool> DeletedAsync(int Id)
         {
-            throw new NotImplementedException();
+            return await _Repo.PrasonalDetailsRepo.DeletedAsync(Id).ConfigureAwait(false);
         }
 
-        public Task<bool> EditPrasonalDetailsAsync(PrasonalDetailsDTO PrasonalDetails)
+        public async Task<PrasonalDetailsDTO> EditPrasonalDetailsAsync(PrasonalDetailsDTO PrasonalDetails)
         {
-            throw new NotImplementedException();
+            var model = _Mapp.Map<PrasonalDetails>(PrasonalDetails);
+            await _Repo.PrasonalDetailsRepo.EditPrasonalDetailsAsync(model).ConfigureAwait(false);
+            _Repo.AuthRepo.SaveChangesAsync();
+            var dto = _Mapp.Map<PrasonalDetailsDTO>(model);
+            return dto;
         }
 
-        public Task<IEnumerable<PrasonalDetailsViewModel>> GetPrasonalDetailsAsync()
+        public async Task<IEnumerable<PrasonalDetailsViewModel>> GetPrasonalDetailsAsync()
         {
-            throw new NotImplementedException();
+            var model = await _Repo.PrasonalDetailsRepo.GetPrasonalDetailsAsync().ConfigureAwait(false);
+            var modelDto = _Mapp.Map<List<PrasonalDetailsViewModel>>(model);
+            return (IEnumerable<PrasonalDetailsViewModel>)modelDto;
         }
 
-        public Task<PrasonalDetailsViewModel> GetPrasonalDetailsByIdAsync(int Id)
+        public async Task<PrasonalDetailsViewModel> GetPrasonalDetailsByIdAsync(int Id)
         {
-            throw new NotImplementedException();
+            var model = await _Repo.PrasonalDetailsRepo.GetPrasonalDetailsByIdAsync(Id).ConfigureAwait(false);
+            var modelDto = _Mapp.Map<PrasonalDetailsViewModel>(model);
+            return modelDto;
         }
     }
 }

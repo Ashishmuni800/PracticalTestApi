@@ -10,9 +10,10 @@ namespace Application.ServiceInterface
 {
     public interface IStateService
     {
-        Task<bool> EditStateAsync(StateDTO State);
-        Task<bool> AddStateAsync(StateDTO State);
+        Task<StateDTO> EditStateAsync(StateDTO State);
+        Task<StateDTO> AddStateAsync(StateDTO State);
         Task<IEnumerable<StateViewModel>> GetStateAsync();
+        Task<IEnumerable<StateViewModel>> GetStateByCountryIdAsync(int CountryId);
         Task<StateViewModel> GetStateByIdAsync(int Id);
         Task<bool> DeletedAsync(int Id);
     }

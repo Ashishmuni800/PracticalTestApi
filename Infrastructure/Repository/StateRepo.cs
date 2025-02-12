@@ -1,6 +1,7 @@
 ﻿using Domain.Model;
 using Domain.RepositoryInterface;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,36 +12,51 @@ namespace Infrastructure.Repository
 {
     public class StateRepo : IStateRepo
     {
-        private readonly ApplicationDbContext _employee;
+        private readonly ApplicationDbContext _context;
         //private readonly ApiResponse _response;
         public StateRepo(ApplicationDbContext context)
         {
-            _employee = context;
+            _context = context;
         }
 
-        public Task<bool> AddStateAsync(State State)
+        public async Task<State> AddStateAsync(State State)
         {
-            throw new NotImplementedException();
+            _context.State.Add(State);
+            await _context.SaveChangesAsync();
+            return State;
         }
 
-        public Task<bool> DeletedAsync(int Id)
+        public async Task<bool> DeletedAsync(int Id)
         {
-            throw new NotImplementedException();
+            var finddata = _context.State.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            if (finddata != null)
+            {
+                _context.Remove(finddata);
+                await _context.SaveChangesAsync();
+            }
+            return true;
         }
 
-        public Task<bool> EditStateAsync(State State)
+        public async Task<State> EditStateAsync(State State)
         {
-            throw new NotImplementedException();
+            _context.State.Update(State);
+            await _context.SaveChangesAsync();
+            return State;
         }
 
-        public Task<IEnumerable<State>> GetStateAsync()
+        public async Task<IEnumerable<State>> GetStateAsync()
         {
-            throw new NotImplementedException();
+            return await _context.State.ToListAsync();
         }
 
-        public Task<State> GetStateByIdAsync(int Id)
+        public async Task<IEnumerable<State>> GetStateByCountryIdAsync(int CountryId)
         {
-            throw new NotImplementedException();
+            return await _context.State.Where(Id=>Id.CountryId==CountryId).ToListAsync();
+        }
+
+        public async Task<State> GetStateByIdAsync(int Id)
+        {
+            return await _context.State.Where(id => id.Id == Id).FirstOrDefaultAsync();
         }
     }
 }

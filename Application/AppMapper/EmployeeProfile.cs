@@ -36,6 +36,7 @@ namespace Application.AppMapper
             CreateMap<Country, CountryDTO>();
             CreateMap<CountryDTO, Country>();
 
+            CreateMap<PrasonalDetailsDataModel, PrasonalDetailsViewModel>();
             CreateMap<PrasonalDetails, PrasonalDetailsViewModel>();
             CreateMap<PrasonalDetails, PrasonalDetailsDTO>();
             CreateMap<PrasonalDetailsDTO, PrasonalDetails>();

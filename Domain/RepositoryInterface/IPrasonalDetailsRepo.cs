@@ -9,10 +9,10 @@ namespace Domain.RepositoryInterface
 {
     public interface IPrasonalDetailsRepo
     {
-        Task<bool> EditPrasonalDetailsAsync(PrasonalDetails prasonalDetails);
-        Task<bool> AddPrasonalDetailsAsync(PrasonalDetails prasonalDetails);
-        Task<IEnumerable<Product>> GetPrasonalDetailsAsync();
-        Task<Product> GetPrasonalDetailsByIdAsync(int Id);
+        Task<PrasonalDetails> EditPrasonalDetailsAsync(PrasonalDetails prasonalDetails);
+        Task<PrasonalDetails> AddPrasonalDetailsAsync(PrasonalDetails prasonalDetails);
+        Task<IEnumerable<PrasonalDetailsDataModel>> GetPrasonalDetailsAsync();
+        Task<PrasonalDetailsDataModel> GetPrasonalDetailsByIdAsync(int Id);
         Task<bool> DeletedAsync(int Id);
     }
 }

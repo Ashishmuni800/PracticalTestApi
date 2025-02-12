@@ -1,6 +1,7 @@
 ﻿using Domain.Model;
 using Domain.RepositoryInterface;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,36 +12,51 @@ namespace Infrastructure.Repository
 {
     public class CityRepo : ICityRepo
     {
-        private readonly ApplicationDbContext _employee;
+        private readonly ApplicationDbContext _context;
         //private readonly ApiResponse _response;
         public CityRepo(ApplicationDbContext context)
         {
-            _employee = context;
+            _context = context;
         }
 
-        public Task<bool> AddCityAsync(City City)
+        public async Task<City> AddCityAsync(City City)
         {
-            throw new NotImplementedException();
+            _context.City.Add(City);
+            await _context.SaveChangesAsync();
+            return City;
         }
 
-        public Task<bool> DeletedAsync(int Id)
+        public async Task<bool> DeletedAsync(int Id)
         {
-            throw new NotImplementedException();
+            var finddata = _context.City.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            if (finddata != null)
+            {
+                _context.Remove(finddata);
+                await _context.SaveChangesAsync();
+            }
+            return true;
         }
 
-        public Task<bool> EditCityAsync(City City)
+        public async Task<City> EditCityAsync(City City)
         {
-            throw new NotImplementedException();
+            _context.City.Update(City);
+            await _context.SaveChangesAsync();
+            return City;
         }
 
-        public Task<IEnumerable<City>> GetCityAsync()
+        public async Task<IEnumerable<City>> GetCityAsync()
         {
-            throw new NotImplementedException();
+            return await _context.City.ToListAsync();
         }
 
-        public Task<City> GetCityByIdAsync(int Id)
+        public async Task<City> GetCityByIdAsync(int Id)
         {
-            throw new NotImplementedException();
+            return await _context.City.Where(id => id.Id == Id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<City>> GetCityByStateIdAsync(int StateId)
+        {
+            return await _context.City.Where(Id => Id.StateId == StateId).ToListAsync();
         }
     }
 }

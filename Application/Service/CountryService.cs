@@ -2,6 +2,7 @@
 using Application.ServiceInterface;
 using Application.ViewModel;
 using AutoMapper;
+using Domain.Model;
 using Domain.RepositoryInterface;
 using System;
 using System.Collections.Generic;
@@ -22,29 +23,40 @@ namespace Application.Service
             _Mapp = Mapp;
         }
 
-        public Task<bool> AddCountryAsync(CountryDTO Country)
+        public async Task<CountryDTO> AddCountryAsync(CountryDTO Country)
         {
-            throw new NotImplementedException();
+            var model = _Mapp.Map<Country>(Country);
+            await _Repo.CountryRepo.AddCountryAsync(model).ConfigureAwait(false);
+            var dto = _Mapp.Map<CountryDTO>(model);
+            return dto;
         }
 
-        public Task<bool> DeletedAsync(int Id)
+        public async Task<bool> DeletedAsync(int Id)
         {
-            throw new NotImplementedException();
+            return await _Repo.CountryRepo.DeletedAsync(Id).ConfigureAwait(false);
         }
 
-        public Task<bool> EditCountryAsync(CountryDTO Country)
+        public async Task<CountryDTO> EditCountryAsync(CountryDTO Country)
         {
-            throw new NotImplementedException();
+            var model = _Mapp.Map<Country>(Country);
+            await _Repo.CountryRepo.EditCountryAsync(model).ConfigureAwait(false);
+            _Repo.AuthRepo.SaveChangesAsync();
+            var dto = _Mapp.Map<CountryDTO>(model);
+            return dto;
         }
 
-        public Task<IEnumerable<CountryViewModel>> GetCountryAsync()
+        public async Task<IEnumerable<CountryViewModel>> GetCountryAsync()
         {
-            throw new NotImplementedException();
+            var model = await _Repo.CountryRepo.GetCountryAsync().ConfigureAwait(false);
+            var modelDto = _Mapp.Map<List<CountryViewModel>>(model);
+            return modelDto;
         }
 
-        public Task<CountryViewModel> GetCountryByIdAsync(int Id)
+        public async Task<CountryViewModel> GetCountryByIdAsync(int Id)
         {
-            throw new NotImplementedException();
+            var model = await _Repo.CountryRepo.GetCountryByIdAsync(Id).ConfigureAwait(false);
+            var modelDto = _Mapp.Map<CountryViewModel>(model);
+            return modelDto;
         }
     }
 }

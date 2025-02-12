@@ -9,9 +9,10 @@ namespace Domain.RepositoryInterface
 {
     public interface IStateRepo
     {
-        Task<bool> EditStateAsync(State State);
-        Task<bool> AddStateAsync(State State);
+        Task<State> EditStateAsync(State State);
+        Task<State> AddStateAsync(State State);
         Task<IEnumerable<State>> GetStateAsync();
+        Task<IEnumerable<State>> GetStateByCountryIdAsync(int CountryId);
         Task<State> GetStateByIdAsync(int Id);
         Task<bool> DeletedAsync(int Id);
     }

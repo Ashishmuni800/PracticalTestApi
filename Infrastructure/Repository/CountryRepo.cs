@@ -1,6 +1,7 @@
 ﻿using Domain.Model;
 using Domain.RepositoryInterface;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,36 +12,46 @@ namespace Infrastructure.Repository
 {
     public class CountryRepo : ICountryRepo
     {
-        private readonly ApplicationDbContext _employee;
+        private readonly ApplicationDbContext _context;
         //private readonly ApiResponse _response;
         public CountryRepo(ApplicationDbContext context)
         {
-            _employee = context;
+            _context = context;
         }
 
-        public Task<bool> AddCountryAsync(Country Country)
+        public async Task<Country> AddCountryAsync(Country Country)
         {
-            throw new NotImplementedException();
+            _context.Country.Add(Country);
+            await _context.SaveChangesAsync();
+            return Country;
         }
 
-        public Task<bool> DeletedAsync(int Id)
+        public async Task<bool> DeletedAsync(int Id)
         {
-            throw new NotImplementedException();
+            var finddata = _context.Country.Where(x => x.Id == Id).FirstOrDefaultAsync();
+            if (finddata != null)
+            {
+                _context.Remove(finddata);
+                await _context.SaveChangesAsync();
+            }
+            return true;
         }
 
-        public Task<bool> EditCountryAsync(Country Country)
+        public async Task<Country> EditCountryAsync(Country Country)
         {
-            throw new NotImplementedException();
+            _context.Country.Update(Country);
+            await _context.SaveChangesAsync();
+            return Country;
         }
 
-        public Task<IEnumerable<Country>> GetCountryAsync()
+        public async Task<IEnumerable<Country>> GetCountryAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Country.ToListAsync();
         }
 
-        public Task<Country> GetCountryByIdAsync(int Id)
+        public async Task<Country> GetCountryByIdAsync(int Id)
         {
-            throw new NotImplementedException();
+            return await _context.Country.Where(id => id.Id == Id).FirstOrDefaultAsync();
         }
     }
 }

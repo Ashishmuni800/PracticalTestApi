@@ -2,6 +2,7 @@
 using Application.ServiceInterface;
 using Application.ViewModel;
 using AutoMapper;
+using Domain.Model;
 using Domain.RepositoryInterface;
 using System;
 using System.Collections.Generic;
@@ -22,29 +23,47 @@ namespace Application.Service
             _Mapp = Mapp;
         }
 
-        public Task<bool> AddStateAsync(StateDTO State)
+        public async Task<StateDTO> AddStateAsync(StateDTO State)
         {
-            throw new NotImplementedException();
+            var model = _Mapp.Map<State>(State);
+            await _Repo.StateRepo.AddStateAsync(model).ConfigureAwait(false);
+            var dto = _Mapp.Map<StateDTO>(model);
+            return dto;
         }
 
-        public Task<bool> DeletedAsync(int Id)
+        public async Task<bool> DeletedAsync(int Id)
         {
-            throw new NotImplementedException();
+            return await _Repo.StateRepo.DeletedAsync(Id).ConfigureAwait(false);
         }
 
-        public Task<bool> EditStateAsync(StateDTO State)
+        public async Task<StateDTO> EditStateAsync(StateDTO State)
         {
-            throw new NotImplementedException();
+            var model = _Mapp.Map<State>(State);
+            await _Repo.StateRepo.EditStateAsync(model).ConfigureAwait(false);
+            _Repo.AuthRepo.SaveChangesAsync();
+            var dto = _Mapp.Map<StateDTO>(model);
+            return dto;
         }
 
-        public Task<IEnumerable<StateViewModel>> GetStateAsync()
+        public async Task<IEnumerable<StateViewModel>> GetStateAsync()
         {
-            throw new NotImplementedException();
+            var model = await _Repo.StateRepo.GetStateAsync().ConfigureAwait(false);
+            var modelDto = _Mapp.Map<List<StateViewModel>>(model);
+            return modelDto;
         }
 
-        public Task<StateViewModel> GetStateByIdAsync(int Id)
+        public async Task<IEnumerable<StateViewModel>> GetStateByCountryIdAsync(int CountryId)
         {
-            throw new NotImplementedException();
+            var model = await _Repo.StateRepo.GetStateByCountryIdAsync(CountryId).ConfigureAwait(false);
+            var modelDto = _Mapp.Map<List<StateViewModel>>(model);
+            return modelDto;
+        }
+
+        public async Task<StateViewModel> GetStateByIdAsync(int Id)
+        {
+            var model = await _Repo.StateRepo.GetStateByIdAsync(Id).ConfigureAwait(false);
+            var modelDto = _Mapp.Map<StateViewModel>(model);
+            return modelDto;
         }
     }
 }
