@@ -52,9 +52,9 @@ namespace Application.Service
             var dto = _Mapp.Map<AspNetUsersDTO>(model);
             return dto;
         }
-        public void SaveChangesAsync()
+        public void SaveChangesAsync(CancellationToken cancellationToken)
         {
-            _Repo.AuthRepo.SaveChangesAsync();
+            _Repo.AuthRepo.SaveChangesAsync(cancellationToken);
         }
         public async Task<AspNetUsersDTO> UpdateAsync(AspNetUsersDTO user)
         {
@@ -63,6 +63,26 @@ namespace Application.Service
             _Repo.AuthRepo.SaveChangesAsync();
             var dto = _Mapp.Map<AspNetUsersDTO>(model);
             return dto;
+        }
+        public async Task<AspNetUsersDTO> GetUserByEmailAsync(string email)
+        {
+            var model = await _Repo.AuthRepo.GetUserByEmailAsync(email).ConfigureAwait(false);
+            var modelDto = _Mapp.Map<AspNetUsersDTO>(model);
+            return modelDto;
+        }
+
+        public async Task<RefreshTokenDTO> AddRefreshTokensAsync(RefreshTokenDTO refreshToken)
+        {
+            var model = _Mapp.Map<RefreshToken>(refreshToken);
+            await _Repo.AuthRepo.AddRefreshTokensAsync(model).ConfigureAwait(false);
+            _Repo.AuthRepo.SaveChangesAsync();
+            var dto = _Mapp.Map<RefreshTokenDTO>(model);
+            return dto;
+        }
+
+        public void SaveChangesAsync()
+        {
+             _Repo.AuthRepo.SaveChangesAsync();
         }
     }
 }

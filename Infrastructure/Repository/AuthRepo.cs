@@ -58,15 +58,32 @@ namespace Infrastructure.Repository
             await _employee.SaveChangesAsync();
             return user;
         }
-        public async void SaveChangesAsync()
+        public async void SaveChangesAsync(CancellationToken cancellationToken)
         {
-            await _employee.SaveChangesAsync();
+            await _employee.SaveChangesAsync(cancellationToken);
         }
         public async Task<AspNetUsers> UpdateAsync(AspNetUsers user)
         {
             _employee.AspNetUsers.Update(user);
             await _employee.SaveChangesAsync();
             return user;
+        }
+        public async Task<AspNetUsers> GetUserByEmailAsync(string email)
+        {
+            return await _employee.AspNetUsers
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<RefreshToken> AddRefreshTokensAsync(RefreshToken refreshToken)
+        {
+            await _employee.RefreshToken.AddAsync(refreshToken);
+            await _employee.SaveChangesAsync();
+            return refreshToken;
+        }
+
+        public async void SaveChangesAsync()
+        {
+            await _employee.SaveChangesAsync();
         }
     }
 }

@@ -24,6 +24,9 @@ namespace Application.AppMapper
             CreateMap<AspNetUsers, AspNetUsersDTO>();
             CreateMap<AspNetUsersDTO, AspNetUsers>();
 
+            CreateMap<RefreshToken, RefreshTokenDTO>();
+            CreateMap<RefreshTokenDTO, RefreshToken>();
+
             CreateMap<Product, ProductViewModel>();
             CreateMap<Product, ProductDTO>();
             CreateMap<ProductDTO, Product>();

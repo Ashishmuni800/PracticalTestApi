@@ -20,5 +20,6 @@ namespace Infrastructure.Context
         public DbSet<Country> Country { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<City> City { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
     }
 }

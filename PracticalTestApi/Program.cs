@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using InfrastructDomain.Model;
 using Microsoft.Extensions.Configuration;
+using Application.TokenGenerator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +36,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //    });
 
 //builder.Services.AddAuthorization();
-
+builder.Services.AddScoped<TokenGenerator>();
 builder.Services.AddScoped<IServiceInfra, ServiceInfra>();
 builder.Services.AddScoped<IServiceInfraRepo, ServiceInfraRepo>();
 builder.Services.AddScoped<IProductService, ProductService>();
