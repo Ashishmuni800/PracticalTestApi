@@ -41,6 +41,7 @@ builder.Services.AddScoped<IServiceInfra, ServiceInfra>();
 builder.Services.AddScoped<IServiceInfraRepo, ServiceInfraRepo>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

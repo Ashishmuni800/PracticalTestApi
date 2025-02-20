@@ -1,7 +1,9 @@
 ﻿using Application.DTO;
+using Application.Service;
 using Application.ServiceInterface;
 using Application.TokenGenerator;
 using Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,12 +15,15 @@ namespace PracticalTestApi.Controllers
     {
         private readonly IServiceInfra _Auth;
         private readonly TokenGenerator _tokenGenerator;
-        public AuthController(IServiceInfra Auth, TokenGenerator tokenGenerator)
+        private readonly IEmailService _emailService;
+        public AuthController(IServiceInfra Auth, TokenGenerator tokenGenerator,IEmailService emailService)
         {
             _Auth = Auth;
             _tokenGenerator = tokenGenerator;
+            _emailService = emailService;
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var User = await _Auth.AuthService.GetUserAsync().ConfigureAwait(false);
@@ -37,7 +42,7 @@ namespace PracticalTestApi.Controllers
         //    return Ok(User);
         //}
 
-        [HttpPost("login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] AspNetUsersDTO request, CancellationToken cancellationToken)
         {
             // Fetch user by email
@@ -65,6 +70,15 @@ namespace PracticalTestApi.Controllers
         public async Task<IActionResult> Registration([FromBody] AspNetUsersDTO model)
         {
             var User = await _Auth.AuthService.ResistrationAsync(model).ConfigureAwait(false);
+            if(User != null)
+            {
+                var subject = "Test Email";
+                var body = "<h1>Hello, this is a test email!</h1>";
+
+                await _emailService.SendEmailAsync(model.Email, subject, body);
+
+                return Ok("Email sent successfully!");
+            }
             return Ok();
         } 
         [HttpPut("{id}")]
